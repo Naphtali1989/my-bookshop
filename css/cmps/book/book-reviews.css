@@ -1,0 +1,6 @@
+.book-reviews {
+    list-style-type: none;
+    margin: 0;
+    padding: 2rem;
+    max-width: 500px;
+}

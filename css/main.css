@@ -1,0 +1,78 @@
+@import './animate.css';
+@import './cmps/user-msg.css';
+@import './cmps/footer.css';
+@import './cmps/header.css';
+@import './pages/about-page.css';
+@import './pages/home-page.css';
+@import './pages/book/book-app.css';
+@import './pages/book/book-edit.css';
+@import './pages/book/book-details.css';
+@import './cmps/book/book-review-add.css';
+@import './cmps/book/book-filter.css';
+@import './cmps/book/book-list.css';
+@import './cmps/book/book-preview.css';
+@import './cmps/book/book-reviews.css';
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #2A2B2E;
+    color: #87FF65;
+    font-family: cursive, Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0.5rem;
+}
+
+header,
+footer {
+    background-color: ivory;
+    height: 75px;
+    max-width: 100%;
+}
+
+input,
+button {
+    font-family: cursive, Arial, Helvetica, sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+input:focus {
+    background-color: #5A5A66;
+    color: #ACEB98;
+    border: 2px solid rgba(255, 255, 240, 0.5);
+}
+
+#my-app {
+    max-width: 1080px;
+}
+
+.my-app {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    margin: 2rem;
+}
+
+.flex {
+    display: flex;
+}

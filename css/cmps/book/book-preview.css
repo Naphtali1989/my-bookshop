@@ -1,0 +1,39 @@
+.book-preview {
+    background-color: ivory;
+    position: relative;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    opacity: 0.75;
+    padding: 7px;
+    color: #2A2B2E;
+    transition: all .3s;
+}
+
+.book-preview:hover {
+    opacity: 1;
+}
+
+.book-preview-title {
+    height: 35px;
+}
+
+.edit-btn {
+    background-color: rgba(255, 255, 240, 0.75);
+    position: absolute;
+    bottom: 45px;
+    left: 24px;
+    width: 75%;
+    height: 10%;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity .3s, background-color .3s, color .3s;
+}
+
+.edit-btn:hover {
+    background-color: #2A2B2E;
+    color: #87FF65;
+}
+
+.book-preview:hover .edit-btn {
+    opacity: 1;
+}

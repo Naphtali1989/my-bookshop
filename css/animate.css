@@ -1,0 +1,23 @@
+@keyframes heartbeat {
+    from {
+        transform: scale(1) rotateZ(-45deg);
+        transform-origin: center center;
+        animation-timing-function: ease-out;
+    }
+    10% {
+        transform: scale(1.09) rotateZ(-45deg);
+        animation-timing-function: ease-in;
+    }
+    17% {
+        transform: scale(1.02) rotateZ(-45deg);
+        animation-timing-function: ease-out;
+    }
+    33% {
+        transform: scale(1.09) rotateZ(-45deg);
+        animation-timing-function: ease-in;
+    }
+    45% {
+        transform: scale(1) rotateZ(-45deg);
+        animation-timing-function: ease-out;
+    }
+}

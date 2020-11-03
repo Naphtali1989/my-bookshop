@@ -1,0 +1,53 @@
+.review-section input {
+    padding: 0.5rem;
+}
+
+.ratings-section {
+    color: ivory;
+    padding: 1rem;
+}
+
+.ratings-section a {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.ratings-section a:hover {
+    color: gold;
+}
+
+.checked {
+    color: gold !important;
+}
+
+.form-submit-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-cancel-btn {
+    background-color: transparent;
+    border: none;
+    color: crimson;
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    transition: background-color .3s, color .3s;
+}
+
+.review-cancel-btn:hover {
+    background-color: crimson;
+    color: black;
+}
+
+.review-submit-btn {
+    background-color: #87FF65;
+    border: none;
+    padding: 0.75rem;
+    color: #2A2B2E;
+    font-size: 1.75rem;
+    transition: background-color .3s;
+}
+
+.review-submit-btn:hover {
+    background-color: gold;
+}
