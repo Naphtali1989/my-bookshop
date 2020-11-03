@@ -66,7 +66,6 @@ export default {
             this.$emit('submitted');
         },
         rateThis(diff) {
-
             this.rating = diff;
         }
 

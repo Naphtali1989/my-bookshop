@@ -15,7 +15,7 @@ export default {
             <h5>Price: <span :class="priceTag">{{currency}}</span> </h5>
             <div class="img-container">
                 <img :src="imgUrl" />
-                <img class="sale-img" v-if="isSale" src="../img/icon/sale-tag-removebg.png"/>
+                <img class="sale-img" v-if="isSale" src="./img/icon/sale-tag-removebg.png"/>
             </div>
             <p v-if="showRating">*Rating: {{ratingCalc}}*</p>
             <p class="book-pages">**{{pageCount}}**</p>

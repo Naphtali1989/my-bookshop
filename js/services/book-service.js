@@ -1,5 +1,7 @@
 import { storageService } from './storage-service.js'
+import { googleBooks } from '../booksDB/temp-google-booksDB.js'
 
+const API_KEY = `AIzaSyB8xuvJV7hHVq8G4-fe4czIdCz5u_s6VB4`;
 const STORAGE_KEY = 'booksDB';
 
 var gBooks;
@@ -14,6 +16,7 @@ export const bookService = {
     getBookById,
     saveBookReview,
     removeReview,
+    queryGoogleBooks,
 }
 
 function getBooks() {
@@ -53,9 +56,42 @@ function saveBookReview(book, review) {
     return Promise.resolve(book);
 }
 
-function removeBook() {
 
+function queryGoogleBooks(term, author) {
+    if (author) term += `+inauthor:` + author;
+    const searchTerm = term.replace(' ', '+')
+    console.log('searchTerm is:', searchTerm)
+    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=${API_KEY}`)
+        .then(res => {
+            return getGoogleResData(res.data.items)
+        })
 }
+
+function getGoogleResData(items) {
+    const results = []
+    for (let i = 0; i < items.length; i++) {
+        var currBook = {
+            id: items[i].id,
+            title: items[i].volumeInfo.title,
+            subtitle: items[i].volumeInfo.subtitle,
+            authors: items[i].volumeInfo.authors,
+            publishedDate: items[i].volumeInfo.publishedDate,
+            description: items[i].volumeInfo.description,
+            pageCount: items[i].volumeInfo.pageCount,
+            categories: items[i].volumeInfo.categories,
+            thumbnail: items[i].volumeInfo.imageLinks.thumbnail,
+            language: items[i].volumeInfo.language,
+            listPrice: {
+                amount: _getRandomInt(10, 200),
+                currencyCode: 'ILS',
+                isOnSale: false
+            }
+        }
+        results.push(currBook);
+    }
+    return results
+}
+
 
 function removeReview(reviewId, bookId) {
     const book = gBooks.find(gbook => gbook.id === bookId)
@@ -67,7 +103,9 @@ function removeReview(reviewId, bookId) {
 }
 
 
+function removeBook() {
 
+}
 
 
 function addBook() {
@@ -80,13 +118,19 @@ function getEmptyBook() {
 
 
 
-function _makeId(length = 5) {
+function _makeId(length = 11) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < length; i++) {
         txt += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return txt;
+}
+
+function _getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 function _getFreshBooks() {

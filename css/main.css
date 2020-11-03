@@ -4,6 +4,7 @@
 @import './cmps/header.css';
 @import './pages/about-page.css';
 @import './pages/home-page.css';
+@import './pages/book/book-adder.css';
 @import './pages/book/book-app.css';
 @import './pages/book/book-edit.css';
 @import './pages/book/book-details.css';

@@ -10,7 +10,8 @@ export default {
              <book-filter  @filtered="setFilter"/>
              <p>*Click on a book to show details<br>
              or on the "Edit" button to edit</p>
-             <book-list  :books="booksToShow" />
+             <router-link class="add-new-books-btn" to="/books/adder">Add a new book here!</router-link>
+             <book-list :books="booksToShow" />
          </section>
          `,
     data() {
@@ -35,6 +36,9 @@ export default {
         setFilter(filterBy) {
             this.filterBy = filterBy;
         },
+        // openAddBooksPage() {
+        //     this.$router.push('/book/adder')
+        // },
     },
     created() {
         bookService.getBooks()
