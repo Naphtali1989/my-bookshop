@@ -5,7 +5,7 @@ export default {
     props: ['options'],
     template: `
                 <section class="book-add-options">
-                    <h2>The options are:</h2>
+                    <h2>Here are some options to add:</h2>
                     <ul class="book-options">
                         <li v-for="option in options" :key="option.id" >
                             <book-option :book="option" />

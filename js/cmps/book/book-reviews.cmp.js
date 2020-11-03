@@ -16,8 +16,8 @@ export default {
     methods: {
         deleteReview(reviewId) {
             bookService.removeReview(reviewId, this.bookId)
-                .then(ans => this.book = ans)
                 .then(res => {
+                    this.book = res
                     const msg = {
                         txt: 'You have succesfully reviewed this book!',
                         type: 'success'

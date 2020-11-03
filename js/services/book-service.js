@@ -60,7 +60,6 @@ function saveBookReview(book, review) {
 function queryGoogleBooks(term, author) {
     if (author) term += `+inauthor:` + author;
     const searchTerm = term.replace(' ', '+')
-    console.log('searchTerm is:', searchTerm)
     return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=${API_KEY}`)
         .then(res => {
             return getGoogleResData(res.data.items)
@@ -68,6 +67,7 @@ function queryGoogleBooks(term, author) {
 }
 
 function getGoogleResData(items) {
+    console.log(items[0])
     const results = []
     for (let i = 0; i < items.length; i++) {
         const { title, subtitle, authors, publishedDate, description, pageCount, categories, language } = items[i].volumeInfo;

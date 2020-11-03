@@ -36,9 +36,6 @@ export default {
         setFilter(filterBy) {
             this.filterBy = filterBy;
         },
-        // openAddBooksPage() {
-        //     this.$router.push('/book/adder')
-        // },
     },
     created() {
         bookService.getBooks()

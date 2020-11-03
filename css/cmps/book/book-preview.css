@@ -18,16 +18,21 @@
 }
 
 .book-preview-title {
-    height: 35px;
+    /* height: 35px; */
+}
+
+.book-preview-price {
+    margin: 1.5rem;
+    text-align: center;
 }
 
 .edit-btn {
     background-color: rgba(255, 255, 240, 0.75);
     position: absolute;
-    bottom: 45px;
+    top: 45px;
     left: 24px;
     width: 75%;
-    height: 10%;
+    height: 15%;
     font-size: 1.5rem;
     opacity: 0;
     transition: opacity .3s, background-color .3s, color .3s;
