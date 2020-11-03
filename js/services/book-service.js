@@ -1,10 +1,10 @@
 import { storageService } from './storage-service.js'
-import { googleBooks } from '../booksDB/temp-google-booksDB.js'
 
 const API_KEY = `AIzaSyB8xuvJV7hHVq8G4-fe4czIdCz5u_s6VB4`;
 const STORAGE_KEY = 'booksDB';
 
 var gBooks;
+var gTempResults;
 
 
 export const bookService = {
@@ -17,6 +17,7 @@ export const bookService = {
     saveBookReview,
     removeReview,
     queryGoogleBooks,
+    addBookToDB,
 }
 
 function getBooks() {
@@ -56,7 +57,6 @@ function saveBookReview(book, review) {
     return Promise.resolve(book);
 }
 
-
 function queryGoogleBooks(term, author) {
     if (author) term += `+inauthor:` + author;
     const searchTerm = term.replace(' ', '+')
@@ -70,17 +70,19 @@ function queryGoogleBooks(term, author) {
 function getGoogleResData(items) {
     const results = []
     for (let i = 0; i < items.length; i++) {
+        const { title, subtitle, authors, publishedDate, description, pageCount, categories, language } = items[i].volumeInfo;
+        const thumbnail = (items[i].volumeInfo.imageLinks) ? items[i].volumeInfo.imageLinks.thumbnail : 'https://boxshot.com/support/3d-book-covers/how-to-make-a-3d-book-cover-in-photoshop/sample.jpg'
         var currBook = {
-            id: items[i].id,
-            title: items[i].volumeInfo.title,
-            subtitle: items[i].volumeInfo.subtitle,
-            authors: items[i].volumeInfo.authors,
-            publishedDate: items[i].volumeInfo.publishedDate,
-            description: items[i].volumeInfo.description,
-            pageCount: items[i].volumeInfo.pageCount,
-            categories: items[i].volumeInfo.categories,
-            thumbnail: items[i].volumeInfo.imageLinks.thumbnail,
-            language: items[i].volumeInfo.language,
+            id: _makeId(),
+            title,
+            subtitle,
+            authors,
+            publishedDate,
+            description,
+            pageCount,
+            categories,
+            thumbnail,
+            language,
             listPrice: {
                 amount: _getRandomInt(10, 200),
                 currencyCode: 'ILS',
@@ -89,9 +91,33 @@ function getGoogleResData(items) {
         }
         results.push(currBook);
     }
+    gTempResults = results;
     return results
 }
 
+function addBookToDB(bookId) {
+    const bookToAdd = findTempBookById(bookId);
+    console.log('the book to add is:', bookToAdd)
+    return getBooks().then(res => {
+        gBooks.unshift(bookToAdd);
+        storageService.saveToStorage(STORAGE_KEY, gBooks);
+        removeTempBook(bookId);
+        return bookToAdd
+    })
+}
+
+function removeTempBook(bookId) {
+    var idx = findTempBookIdxById(bookId);
+    gTempResults.splice(idx, 1)
+}
+
+function findTempBookById(id) {
+    return gTempResults.find(book => book.id === id);
+}
+
+function findTempBookIdxById(id) {
+    return gTempResults.findIndex(book => book.id === id);
+}
 
 function removeReview(reviewId, bookId) {
     const book = gBooks.find(gbook => gbook.id === bookId)
@@ -118,7 +144,7 @@ function getEmptyBook() {
 
 
 
-function _makeId(length = 11) {
+function _makeId(length = 100) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < length; i++) {

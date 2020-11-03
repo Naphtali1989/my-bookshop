@@ -31,7 +31,6 @@ export default {
             if (!this.term) return console.log('no term stated!')
             bookService.queryGoogleBooks(this.term, this.author)
                 .then(res => this.results = res)
-                .then(console.log)
         }
     },
     mounted() {

@@ -74,7 +74,7 @@ export default {
             this.isReviewing = !this.isReviewing;
         },
         openBooks() {
-            this.$router.push('/book');
+            this.$router.push('/books');
         },
         showNoReviews() {
             console.log('no more reviews')

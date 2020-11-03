@@ -9,6 +9,10 @@
     transition: all .3s;
 }
 
+.preview-img {
+    min-height: 242px;
+}
+
 .book-preview:hover {
     opacity: 1;
 }
