@@ -86,7 +86,7 @@ export default {
             this.closeEditMode();
         },
         closeEditMode() {
-            this.$router.push('/book');
+            this.$router.push('/books');
         }
     },
     created() {

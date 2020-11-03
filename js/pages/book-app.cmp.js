@@ -11,7 +11,7 @@ export default {
              <p>*Click on a book to show details<br>
              or on the "Edit" button to edit</p>
              <router-link class="add-new-books-btn" to="/books/adder">Add a new book here!</router-link>
-             <book-list :books="booksToShow" />
+             <book-list :books="booksToShow" @deleteBook="deleteBook"/>
          </section>
          `,
     data() {
@@ -36,6 +36,13 @@ export default {
         setFilter(filterBy) {
             this.filterBy = filterBy;
         },
+        deleteBook(bookId) {
+            bookService.removeBookFromDB(bookId)
+                .then(res => {
+                    bookService.getBooks()
+                        .then(books => this.books = books)
+                })
+        }
     },
     created() {
         bookService.getBooks()

@@ -18,8 +18,8 @@
 }
 
 body {
-    margin: 0;
     background-color: #2A2B2E;
+    margin: 0;
     color: #87FF65;
     font-family: cursive, Arial, Helvetica, sans-serif;
 }
@@ -38,7 +38,7 @@ header,
 footer {
     background-color: ivory;
     height: 75px;
-    max-width: 100%;
+    width: 100%;
 }
 
 input,
@@ -60,13 +60,14 @@ input:focus {
     border: 2px solid rgba(255, 255, 240, 0.5);
 }
 
-#my-app {
-    max-width: 1080px;
-}
-
 .my-app {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+.router-view {
+    flex: 1;
 }
 
 .container {

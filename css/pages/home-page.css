@@ -1,9 +1,7 @@
     .home-page {
         position: relative;
         display: flex;
-        flex: 1;
         max-width: 1060px;
-        /* height: 100vh; */
         margin: 0 auto;
     }
     

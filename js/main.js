@@ -8,19 +8,14 @@ const options = {
     router: myRouter,
     template: `
         <section class="my-app">
-            <header>
-                <head-cmp />
-            </header>
 
-            <main>   
-                <router-view />
-            </main>
+            <head-cmp />
+
+            <router-view class="router-view"/>
 
             <user-msg />
 
-            <footer>
-                <foot-cmp />
-            </footer>
+            <foot-cmp />
 
         </section>
     `,

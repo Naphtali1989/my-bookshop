@@ -9,7 +9,7 @@ var gTempResults;
 
 export const bookService = {
     getBooks,
-    removeBook,
+    removeBookFromDB,
     editBook,
     getBookById,
     saveBookReview,
@@ -77,11 +77,10 @@ function queryGoogleBooks(term, author) {
 }
 
 function getGoogleResData(items) {
-    const results = []
-    for (let i = 0; i < items.length; i++) {
-        const { title, subtitle, authors, publishedDate, description, pageCount, categories, language } = items[i].volumeInfo;
-        const thumbnail = (items[i].volumeInfo.imageLinks) ? items[i].volumeInfo.imageLinks.thumbnail : 'https://boxshot.com/support/3d-book-covers/how-to-make-a-3d-book-cover-in-photoshop/sample.jpg'
-        var currBook = {
+    const results = items.map(item => {
+        const { title, subtitle, authors, publishedDate, description, pageCount, categories, language } = item.volumeInfo;
+        const thumbnail = (item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : 'https://images-na.ssl-images-amazon.com/images/I/514NT6bSFZL.jpg'
+        return {
             id: _makeId(),
             title,
             subtitle,
@@ -98,15 +97,13 @@ function getGoogleResData(items) {
                 isOnSale: false
             }
         }
-        results.push(currBook);
-    }
+    });
     gTempResults = results;
     return results
 }
 
 function addBookToDB(bookId) {
     const bookToAdd = findTempBookById(bookId);
-    console.log('the book to add is:', bookToAdd)
     return getBooks().then(res => {
         gBooks.unshift(bookToAdd);
         storageService.saveToStorage(STORAGE_KEY, gBooks);
@@ -145,14 +142,16 @@ function getNextBookId(currId, diff) {
         } else if (currIdx === gBooks.length - 1 && diff === 1) {
             newIdx = 0
         } else newIdx = currIdx + diff
-
         return Promise.resolve(gBooks[newIdx].id);
     })
-
 }
 
-function removeBook() {
-
+function removeBookFromDB(id) {
+    return getBookIdxById(id).then(res => {
+        gBooks.splice(res, 1)
+        storageService.saveToStorage(STORAGE_KEY, gBooks);
+        return res
+    })
 }
 
 
