@@ -14,8 +14,10 @@ export default {
                 </ul>
             <h5>Price: <span :class="priceTag">{{currency}}</span> </h5>
             <div class="img-container">
-                <img :src="imgUrl" />
-                <img class="sale-img" v-if="isSale" src="./img/icon/sale-tag-removebg.png"/>
+                <button class="review-open-btn" @click="loadBook(-1)"><---</button>
+                    <img :src="imgUrl" />
+                    <img class="sale-img" v-if="isSale" src="./img/icon/sale-tag-removebg.png"/>
+                <button class="review-open-btn" @click="loadBook(1)">---></button>
             </div>
             <p v-if="showRating">*Rating: {{ratingCalc}}*</p>
             <p class="book-pages">**{{pageCount}}**</p>
@@ -33,7 +35,8 @@ export default {
             book: null,
             isSale: null,
             isDescFull: false,
-            isReviewing: false
+            isReviewing: false,
+            currBookId: null
         }
     },
     computed: {
@@ -78,6 +81,13 @@ export default {
         },
         showNoReviews() {
             console.log('no more reviews')
+        },
+        loadBook(diff) {
+            const currId = this.book.id;
+            bookService.getNextBookId(currId, diff)
+                .then(newId =>
+                    this.$router.push('/books/' + newId)
+                )
         }
     },
     components: {
@@ -89,8 +99,19 @@ export default {
         const id = this.$route.params.bookId;
         bookService.getBookById(id)
             .then(book => {
-                this.book = book
+                this.book = book;
                 this.isSale = this.book.listPrice.isOnSale;
+                this.currBookId = book.id
             })
+    },
+    watch: {
+        '$route.params.bookId' (to, from) {
+            bookService.getBookById(to)
+                .then(book => {
+                    this.book = book;
+                    this.isSale = this.book.listPrice.isOnSale;
+                    this.currBookId = book.id
+                })
+        }
     }
 }

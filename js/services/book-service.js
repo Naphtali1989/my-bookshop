@@ -10,14 +10,14 @@ var gTempResults;
 export const bookService = {
     getBooks,
     removeBook,
-    addBook,
     editBook,
-    getEmptyBook,
     getBookById,
     saveBookReview,
     removeReview,
     queryGoogleBooks,
     addBookToDB,
+    getNextBookId,
+
 }
 
 function getBooks() {
@@ -37,6 +37,16 @@ function getBookById(bookId) {
     }
     const book = gBooks.find(book => book.id === bookId);
     return Promise.resolve(book);
+}
+
+function getBookIdxById(bookId) {
+    gBooks = storageService.loadFromStorage(STORAGE_KEY);
+    if (!gBooks || gBooks.length < 1) {
+        gBooks = _getFreshBooks();
+        storageService.saveToStorage(STORAGE_KEY, gBooks);
+    }
+    const bookIdx = gBooks.findIndex(book => book.id === bookId);
+    return Promise.resolve(bookIdx);
 }
 
 function editBook(editedBook) {
@@ -67,7 +77,6 @@ function queryGoogleBooks(term, author) {
 }
 
 function getGoogleResData(items) {
-    console.log(items[0])
     const results = []
     for (let i = 0; i < items.length; i++) {
         const { title, subtitle, authors, publishedDate, description, pageCount, categories, language } = items[i].volumeInfo;
@@ -85,7 +94,7 @@ function getGoogleResData(items) {
             language,
             listPrice: {
                 amount: _getRandomInt(10, 200),
-                currencyCode: 'ILS',
+                currencyCode: _getRandomCurrency(),
                 isOnSale: false
             }
         }
@@ -128,23 +137,29 @@ function removeReview(reviewId, bookId) {
     return Promise.resolve(book);
 }
 
+function getNextBookId(currId, diff) {
+    return getBookIdxById(currId).then(currIdx => {
+        var newIdx;
+        if (currIdx === 0 && diff === -1) {
+            newIdx = gBooks.length - 1
+        } else if (currIdx === gBooks.length - 1 && diff === 1) {
+            newIdx = 0
+        } else newIdx = currIdx + diff
+
+        return Promise.resolve(gBooks[newIdx].id);
+    })
+
+}
 
 function removeBook() {
 
 }
 
 
-function addBook() {
-
-}
-
-function getEmptyBook() {
-
-}
 
 
 
-function _makeId(length = 100) {
+function _makeId(length = 11) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < length; i++) {
@@ -602,4 +617,9 @@ function _getFreshBooks() {
             }
         }
     ]
+}
+
+function _getRandomCurrency() {
+    var currencies = ['ILS', 'USD', 'EUR']
+    return currencies[_getRandomInt(0, 2)]
 }

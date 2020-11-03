@@ -6,7 +6,7 @@ export default {
     props: ['book'],
     template: `
                 <section class="book-option">
-                    <h3>Title: {{book.title}}</h3>
+                    <h3>{{book.title}}</h3>
                     <h4>By: {{author}}</h4>
                     <button class="add-book-btn" @click="addBook(book.id)">Add book to our list</button>
                 </section>
